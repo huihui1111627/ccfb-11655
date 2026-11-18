@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LoRa 蜂场网络仿真看板</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+  <div class="brand">
+    <span class="logo">📡</span>
+    <div>
+      <h1>LoRa 蜂场网络仿真看板</h1>
+      <p id="meta">加载中…</p>
+    </div>
+  </div>
+  <div class="controls">
+    <label>种子 <input id="seed" type="number" value="20261119"></label>
+    <label>节点数 <input id="nodes" type="number" value="300" min="10" max="2000"></label>
+    <label>时长(h) <input id="hours" type="number" value="6" min="1" max="168"></label>
+    <button id="rerun">重新仿真</button>
+    <div class="mode-toggle">
+      <button class="mode-btn active" data-mode="fixed">固定 SF</button>
+      <button class="mode-btn" data-mode="adr">自适应 ADR</button>
+    </div>
+  </div>
+</header>
+
+<section id="kpi-row" class="kpi-row"></section>
+
+<main class="grid">
+  <section class="card span-2">
+    <div class="card-head"><h2>节点地图</h2><span class="hint">颜色=当前扩频因子，点击节点看详情</span></div>
+    <canvas id="map" width="720" height="520"></canvas>
+    <div id="node-detail" class="node-detail">点击地图上的节点查看链路与电池详情</div>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>扩频因子分布</h2><span class="hint">空中帧计数</span></div>
+    <div id="sf-chart" class="bar-chart"></div>
+  </section>
+
+  <section class="card span-2">
+    <div class="card-head"><h2>信道占用时间线</h2><span class="hint">每分钟一个桶，虚线为法规占空比上限</span></div>
+    <div id="channel-toolbar" class="channel-toolbar"></div>
+    <canvas id="timeline" width="720" height="300"></canvas>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>丢包原因</h2><span class="hint">本模式全部帧</span></div>
+    <div id="loss-chart" class="loss-list"></div>
+  </section>
+
+  <section class="card span-2">
+    <div class="card-head"><h2>电池寿命估算</h2><span class="hint">8000 mAh 电池，按发射/接收/睡眠电流外推</span></div>
+    <canvas id="battery" width="720" height="280"></canvas>
+    <div id="battery-stats" class="battery-stats"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>固定 SF vs ADR 对比</h2></div>
+    <div id="compare-table" class="compare-table"></div>
+  </section>
+</main>
+
+<footer>
+  <span id="det-badge" class="badge"></span>
+  <span>离散事件引擎 · 空中时间与 Semtech 计算器一致 · 同种子两次运行字节级一致</span>
+</footer>
+
+<script src="/app.js"></script>
+</body>
+</html>
